@@ -39,13 +39,19 @@ var reportingData = (function() {
 
 	var loadAllData = function() {
 
-		// Set numDays to a high value that will include all days until the Superbowl.
-		sosowgw.setNumDays( 30 );
-		// Start the data polling.
-	  countsInterval = window.setInterval( function(){ checkData() } , 2000);
+		// // Set numDays to a high value that will include all days until the Superbowl.
+		// sosowgw.setNumDays( 30 );
+		// // Start the data polling.
+	 //  countsInterval = window.setInterval( function(){ checkData() } , 2000);
+
+		d3.json("data/originalData-temp1.json", function(error, data) {
+			countsJSON = data;
+			countsData = parseCountsJSON( countsJSON );
+			displayGraphs();
+		});
 
 	}
-
+/*
 	// Check all data endpoints for new data.
 	// All the team data we are using is from the data we receive from the sosowgw class.
 	var checkData = function() {
@@ -77,7 +83,7 @@ var reportingData = (function() {
 	  console.log( countsData );
 
 	}
-
+*/
 	var parseCountsJSON = function( iCountsJSON ) {
 
 		var temp = {};
@@ -157,7 +163,7 @@ var reportingData = (function() {
 
 			// console.log( "displayGraphs- START! ----------------- *" )
 
-			reportingPageController.emptyGraphContainer();
+			// reportingPageController.emptyGraphContainer();
 
 			for ( dayData in countsData.graphDataDays ) {
 				reportingGraphView.createGraph( "singleDay", countsData.graphDataDays[dayData] );
