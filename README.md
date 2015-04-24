@@ -18,15 +18,9 @@ Starting page: original.html
 
 Your new remix page: remix.html
 
-## 3) _Sus Datos_ (data)
+## _WIP: Do we need in-between explanation steps on how toremix the graphs? Or will the Tour before be enough?_
 
-- Team 1: link?
-- Team 2: link?
-- Team 3: link?
-- Team 4: link?
-- Team 5: link?
-
-## 4) _Pasos_ (development steps)
+## 3) _Pasos_ (development steps)
 1. Load you your data
 2. Make your barchart
 3. Make your piechart
@@ -35,4 +29,14 @@ Your new remix page: remix.html
 	- Team 2: force-layout
 	- Team 3: cord diagram
 	- Team 4: voronoi
-	- Team 5: ?
+	- Team 5: sunburst
+
+## 4) _Sus Datos_ (data)
+
+- Team 1: link?
+- Team 2: link?
+- Team 3: link?
+- Team 4: link?
+- Team 5: link?
+
+##5 _Presentación_ (show & tell)

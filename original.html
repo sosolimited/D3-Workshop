@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>WGW2015 Dashboard - Sosolimited : Reporting page</title>
+
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Soso -->
+    <link href="css/clientStyle.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">WGW2015 Dashboard | Custom Client API</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <!-- Section 1 -->
+      <div id="daterange">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Custom Date Range Chart</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="input-daterange input-group" id="datepicker">
+                <input id="start" type="text" class="input-sm form-control" value="start" name="start" />
+                <span class="input-group-addon">to</span>
+                <input id="end" type="text" class="input-sm form-control" value="end" name="end" />
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button class='btn btn-default btn-daterange' id='generate-graph'>Generate</button>
+          </div>
+          <div class="col-md-1">
+            <button class='btn btn-default btn-daterange' id='delete-graph'>Delete Graph</button>
+          </div>
+        </div>
+        <div id='graph-container-daterange'></div>
+      </div>
+
+      <!-- Section 2 -->
+      <div id="alldays">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Historical Day Charts</h2>
+          </div>
+        </div>
+        <div id='graph-container'></div>
+      </div>
+
+    </div>
+
+    <!-- ================================================== -->
+    <script src="js/libs/jquery-1.11.1.min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/libs/bootstrap-datepicker.js"></script>
+    <script src="js/libs/underscore-min.js"></script>
+    <script src="js/libs/d3.min.js"></script>
+    <script src="js/libs/topojson.v1.min.js"></script>
+    <script src="js/libs/WGW2015-Client/sosowgw.js"></script>
+    <script src="js/reporting/reportingData.js"></script>
+    <script src="js/reporting/reportingGraphView.js"></script>
+    <script src="js/reporting/reportingPageController.js"></script>
+    <script src="js/reporting/reportingMain.js"></script>
+
+  </body>
+</html>
