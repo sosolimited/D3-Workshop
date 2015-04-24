@@ -31,8 +31,8 @@ Your new remix page: remix.html
 2. Make your barchart
 3. Make your piechart
 4. Make your alternate chart
-	- Team 1: voronoi
+	- Team 1: map
 	- Team 2: force-layout
 	- Team 3: cord diagram
-	- Team 4: ?
+	- Team 4: voronoi
 	- Team 5: ?
