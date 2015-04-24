@@ -39,51 +39,16 @@ var reportingData = (function() {
 
 	var loadAllData = function() {
 
-		// // Set numDays to a high value that will include all days until the Superbowl.
-		// sosowgw.setNumDays( 30 );
-		// // Start the data polling.
-	 //  countsInterval = window.setInterval( function(){ checkData() } , 2000);
-
 		d3.json("data/originalData-temp1.json", function(error, data) {
+
 			countsJSON = data;
 			countsData = parseCountsJSON( countsJSON );
 			displayGraphs();
+
 		});
 
 	}
-/*
-	// Check all data endpoints for new data.
-	// All the team data we are using is from the data we receive from the sosowgw class.
-	var checkData = function() {
 
-		console.log( "- - - - - - - - - - - - - - - - - - - - - - -" );
-		console.log( "reportingData- checkData- on 2 second interval" );
-		console.log( "- - - - - - - - - - - - - - - - - - - - - - -" );
-
-		// Data source #1.
-		checkCounts();
-
-		// Cheap/temporary solution to displaying graphs when all data is ready.
-		window.setTimeout( displayGraphs, 5000 );
-
-	}
-
-	// Check getCounts for data used to build barcharts.
-	var checkCounts = function() {
-
-		// Use this stringify then parse back to object hack to create a copy of the object received from getCounts(),
-		// so we do not modify the object in sosowgw.js (since everything in JS in pass-by-reference).
-		var countsJSON = JSON.parse(JSON.stringify( sosowgw.getCounts() ))
-		console.log( "countsJSON:" );
-	  console.log( countsJSON );
-
-	  countsData = parseCountsJSON( countsJSON );
-
-	  console.log( "countsData:" );
-	  console.log( countsData );
-
-	}
-*/
 	var parseCountsJSON = function( iCountsJSON ) {
 
 		var temp = {};
@@ -161,13 +126,9 @@ var reportingData = (function() {
 
 	var displayGraphs = function() {
 
-			// console.log( "displayGraphs- START! ----------------- *" )
-
-			// reportingPageController.emptyGraphContainer();
-
-			for ( dayData in countsData.graphDataDays ) {
-				reportingGraphView.createGraph( "singleDay", countsData.graphDataDays[dayData] );
-			}
+		for ( dayData in countsData.graphDataDays ) {
+			reportingGraphView.createGraph( "singleDay", countsData.graphDataDays[dayData] );
+		}
 
 	}
 
