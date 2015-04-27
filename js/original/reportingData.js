@@ -41,6 +41,9 @@ var reportingData = (function() {
 
 		d3.json("data/originalData-temp1.json", function(error, data) {
 
+console.log( "data:" );
+console.log( data );
+
 			countsJSON = data;
 			countsData = parseCountsJSON( countsJSON );
 			displayGraphs();

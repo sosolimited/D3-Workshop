@@ -20,7 +20,7 @@ Your new remix page: remix.html
 
 ## _WIP: Do we need in-between explanation steps on how toremix the graphs? Or will the Tour before be enough?_
 
-## 3) _Pasos_ (development steps)
+## 3) _Decompostura_ (breakdown)
 1. Load you your data
 2. Make your barchart
 3. Make your piechart
