@@ -2,34 +2,54 @@ var view = (function(){
 
 	var that = {};
 
-	var createGraph = function( iDayData ) {
+	// Creates a "graph" composed of 2 parts: a barchart and a piechart.
+	var createGraph = function( iData ) {
 
-console.log( "view.js- createGraph- iDayData:" );
-console.log( iDayData );
+console.log( "view.js- createGraph- iData:" );
+console.log( iData );
 
-		// Setup data.
-		var graphData = iDayData.teams;
-		var dayTotal = iDayData.dayTotal;
-		var containerDiv = "graph-container";
+		// Setup variables.
+		var graphData = iData.teams;
+		var totalCount = iData.totalCount;
 
 		// Graph dimensions.
 		var margin = {top: 50, right: 50, bottom: 100, left: 50},
 		    width = 1100 - margin.left - margin.right,
 		    height = 300 - margin.top - margin.bottom;
 
+    // Clean the data.
+	  graphData.forEach( function(d) {
+	  	d.count = +d.count;
+	  });
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	  // BARCHART
 	  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    var	parseDate = d3.time.format( "%Y-%m-%d" ).parse;
-
+    // The barchart width is only a part of the total graph width.
     var barchartWidth = width * 6/10;
 
+    // Here we create a scale to map count values to positions along the barchart height.
+		// https://github.com/mbostock/d3/wiki/Quantitative-Scales#linear
+		// http://chimera.labs.oreilly.com/books/1230000000345/ch07.html#_domains_and_ranges
+		var y = d3.scale.linear()
+			.domain( [ 0, d3.max( graphData, function(d){ return d.count; } ) ] )
+			.range( [ height, 0 ] );
+
+// console.log( "y.domain(): " + y.domain() );
+// console.log( "y.range(): " + y.range() );
+
+  	// Here we create a scale to map teams to positions along the barchart width.
+  	// RangeRoundBands determines the ideal width of the bands (ie. bars) and their positions.
+    // https://github.com/mbostock/d3/wiki/Ordinal-Scales#ordinal_rangeRoundBands
   	var x = d3.scale.ordinal()
+			.domain( graphData.map(function(d) { return d.team; }))
 	    .rangeRoundBands( [ 0, barchartWidth ], 0.5 );
 
-		var y = d3.scale.linear()
-		    .range( [ height, 0 ] );
+// console.log( "x.domain(): " + x.domain() );
+// console.log( "x.range(): " + x.range() );
+// console.log( "x.rangeBand(): " + x.rangeBand() );
+// console.log( "x.rangeExtent(): " + x.rangeExtent() );
 
     var xAxis = d3.svg.axis()
 	    .scale(x)
@@ -41,24 +61,13 @@ console.log( iDayData );
 		    .ticks(10)
 		    .tickFormat(d3.format("d"));		// Display as integers.
 
-	  var domRow = $("<div class='row'></div>").appendTo( "#" + containerDiv );
-	  var domCol = $("<div class='col-md-12'></div>").appendTo( domRow );
-
-		var svg = d3.select(domCol[0]).append("svg")
+		var svg = d3.select("#graph-container").append("svg")
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom);
 
 	  var barchartSvg = svg.append("g")
 		    .attr("class", "barchart")
 		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-	  // Clean the data.
-	  graphData.forEach( function(d) {
-	  	d.count = +d.count;
-	  });
-
-	  x.domain( graphData.map(function(d) { return d.team; }));
-	  y.domain( [ 0, d3.max( graphData, function(d){ return d.count; } ) ] );
 
 	  // Draw the axes.
 	  barchartSvg.append("g")
@@ -123,12 +132,15 @@ console.log( iDayData );
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	  // PIECHART
+	  // Uses a D3 built-in graph type (aka. a D3 "layout").
 	  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+	  // https://github.com/mbostock/d3/wiki/Pie-Layout
 	  var pieWidth = width * 2/10,
 	      pieHeight = pieWidth,
 	      r = Math.min(pieWidth, pieHeight) / 2,
 	      labelr = r + 20, // radius for label anchor
+	      // Use the pie layout, and tell it how to access the values in our data that we want to use.
 	      pie = d3.layout.pie().value( function(d){ return d.count } ),
 	      arc = d3.svg.arc().innerRadius(0).outerRadius(r);
 
@@ -137,13 +149,18 @@ console.log( iDayData );
   	    .attr("transform", "translate(" + (margin.left + barchartWidth + (width * 1/10) + r) + "," + (margin.top + r) + ")");
 
     var arcs = pieSvg.selectAll(".arc")
+    		// Give the pie layout our data, which it already knows how to use.
         .data( pie(graphData) )
       .enter().append("g")
         .attr("class", "arc");
 
     arcs.append("path")
         .attr("class", function(d){
+			    // d3.layout.pie took our data and automatically generated new properties to draw the arcs.
+// console.log( "d:" );
+// console.log( d );
         	return d.data.team; })
+        // now, the arc function knows to take those properties and create the SVG path that is appended.
         .attr("d", arc);
 
     // Labels of percent per pie slice.
@@ -163,7 +180,7 @@ console.log( iDayData );
                 "end" : "start";
         })
         .text(function(d, i) {
-        	var percentage = Math.round(d.data.count/dayTotal*100);
+        	var percentage = Math.round(d.data.count/totalCount*100);
         	if ( percentage > 0 ) {
         		if ( percentage > 9 ) { percentage = percentage.toString() + "%"; }
         		return percentage;
@@ -181,6 +198,7 @@ console.log( iDayData );
   		.style("font-style", "italic")
   		.style("font-weight", "bold");
 
+  	// Call Bootstrap's popover method with D3's mouseover method.
 		arcs.on("mouseover", function(d) {
 			showPopover.call(this,
 				"<div class='piechart-popover-content'>"+
@@ -192,12 +210,7 @@ console.log( iDayData );
 
 	}
 
-	var removePopovers = function() {
-	  $('.popover').each(function() {
-	    $(this).remove();
-	  });
-	}
-
+	// Creates a Bootstrap popover for the element on which is it called.
 	var showPopover = function( iContent ) {
 	  $(this).popover({
 	    placement: 'auto top',
@@ -208,6 +221,13 @@ console.log( iDayData );
 	      return iContent }
 	  });
 	  $(this).popover('show')
+	}
+
+	// Removes all popovers.
+	var removePopovers = function() {
+	  $('.popover').each(function() {
+	    $(this).remove();
+	  });
 	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
