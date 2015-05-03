@@ -1,31 +1,16 @@
-/*
-File: reportingGraphView.js
-Description: function to create graphs.
-Author: JC Nesci
-*/
-
-var reportingGraphView = (function(){
+var view = (function(){
 
 	var that = {};
 
-	var createGraph = function( iGraphType, iDayData ) {
+	var createGraph = function( iDayData ) {
 
-		// console.log( "reportingGraphView- createGraph- iDayData:" );
-		// console.log( iDayData );
+console.log( "view.js- createGraph- iDayData:" );
+console.log( iDayData );
 
 		// Setup data.
-		var graphType = iGraphType;
 		var graphData = iDayData.teams;
-		var day = iDayData.day;
 		var dayTotal = iDayData.dayTotal;
-		if ( graphType == "singleDay" ) {
-			var headerDayTitle = "Day";
-			var containerDiv = "graph-container";
-		}
-	  else if ( graphType == "dateRange" ) {
-	  	var headerDayTitle = "Days";
-	  	var containerDiv = "graph-container-daterange";
-	  }
+		var containerDiv = "graph-container";
 
 		// Graph dimensions.
 		var margin = {top: 50, right: 50, bottom: 100, left: 50},
@@ -58,7 +43,6 @@ var reportingGraphView = (function(){
 
 	  var domRow = $("<div class='row'></div>").appendTo( "#" + containerDiv );
 	  var domCol = $("<div class='col-md-12'></div>").appendTo( domRow );
-	  var domHeader = $("<h3>"+ headerDayTitle +": "+ day +" | Total Votes: "+ dayTotal +"</h3>").appendTo(domCol);
 
 		var svg = d3.select(domCol[0]).append("svg")
 		    .attr("width", width + margin.left + margin.right)
@@ -88,7 +72,7 @@ var reportingGraphView = (function(){
 
 		// Draw the bars.
 	  barchartSvg.append("g")
-      		.attr("id", "bars-" + day)
+      		.attr("class", "bars")
   		.selectAll(".bar")
 	      .data(graphData)
 	    .enter().append("rect")

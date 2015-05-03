@@ -1,1 +1,0 @@
-reportingData.loadAllData();
