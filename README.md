@@ -4,6 +4,10 @@ This is workshop for teaching D3.js to Team Soso, during the team's visit to San
 
 The goal is to give you one of our D3-archetypcal projects as a starting point, and then remix it using new data to learn the fundamentals of D3.
 
+## 0) _Preámbulo_ (preamble)
+
+- D3-Handbook, up to _A More Detailed Explanation_
+
 ## 1) _Sus Equipos_ (teams)
 
 1. Alex, Justin

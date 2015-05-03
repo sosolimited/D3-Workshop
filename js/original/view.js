@@ -80,6 +80,7 @@ console.log( iData );
 	      .call(yAxis);
 
 		// Draw the bars.
+		// DATA-JOIN: ENTER
 	  barchartSvg.append("g")
       		.attr("class", "bars")
   		.selectAll(".bar")
@@ -92,6 +93,7 @@ console.log( iData );
 	      .attr("height", function(d) { return height - y( d.count ); });
 
     // Add statistics to top of each bar.
+    // DATA-JOIN: ENTER
     barchartSvg.selectAll("bar-stats")
         .data(graphData)
       .enter().append("foreignObject")
@@ -106,6 +108,7 @@ console.log( iData );
           });
 
     // Label to indicate the numbers in barchart are # of votes.
+    // NO DATA-JOIN: just appending.
     barchartSvg.append("text")
     	.attr("transform", "translate(-30, -30)")
     	.text("# Votes:")
@@ -114,6 +117,7 @@ console.log( iData );
     	.style("font-weight", "bold");
 
   	// Add team logos under each bar.
+  	// DATA-JOIN: ENTER
   	barchartSvg.selectAll("bar-logos")
   	    .data(graphData)
   	  .enter().append("foreignObject")
@@ -148,8 +152,11 @@ console.log( iData );
   	    .attr("class", "piechart")
   	    .attr("transform", "translate(" + (margin.left + barchartWidth + (width * 1/10) + r) + "," + (margin.top + r) + ")");
 
+
+    // Create pie arcs based on our data.
+    // DATA-JOIN: ENTER
     var arcs = pieSvg.selectAll(".arc")
-    		// Give the pie layout our data, which it already knows how to use.
+    		// Give the pie layout our data, which it already knows how to use, thanks to d3.layout.pie().value().
         .data( pie(graphData) )
       .enter().append("g")
         .attr("class", "arc");
