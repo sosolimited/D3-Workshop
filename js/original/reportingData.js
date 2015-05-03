@@ -39,13 +39,18 @@ var reportingData = (function() {
 
 	var loadAllData = function() {
 
-		d3.json("data/originalData-temp1.json", function(error, data) {
+		d3.json("data/originalData-temp2.json", function(error, data) {
 
 console.log( "data:" );
 console.log( data );
 
 			countsJSON = data;
-			countsData = parseCountsJSON( countsJSON );
+			// countsData = parseCountsJSON( countsJSON );
+			countsData = data;
+
+console.log( "countsData:" );
+console.log( countsData );
+
 			displayGraphs();
 
 		});
@@ -59,6 +64,28 @@ console.log( data );
 		// Add all objects properties to contain different graph data here.
 		temp.graphDataDays = createGraphDataDays( iCountsJSON );
 
+		// NEW - - - - - - - - - -
+/*
+		var dayTotals = [];
+		for ( var key in iCountsJSON ) {
+
+console.log(iCountsJSON[key].team)
+
+			var days = iCountsJSON[key].days;
+			var counts = [];
+			days.forEach(function(d){
+				counts.push( parseInt(d.count) );
+			});
+			var total = counts.reduce(function(a, b) { return a + b; });
+			dayTotals.push( total );
+
+console.log(total)
+
+		}
+
+console.log( "dayTotals:" );
+console.log( dayTotals );
+*/
 	  return temp;
 	}
 
@@ -129,9 +156,11 @@ console.log( data );
 
 	var displayGraphs = function() {
 
-		for ( dayData in countsData.graphDataDays ) {
-			reportingGraphView.createGraph( "singleDay", countsData.graphDataDays[dayData] );
-		}
+		// for ( dayData in countsData.graphDataDays ) {
+		// 	reportingGraphView.createGraph( "singleDay", countsData.graphDataDays[dayData] );
+		// }
+
+		reportingGraphView.createGraph( "singleDay", countsData );
 
 	}
 

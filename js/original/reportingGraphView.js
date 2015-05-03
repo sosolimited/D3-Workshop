@@ -15,7 +15,7 @@ var reportingGraphView = (function(){
 
 		// Setup data.
 		var graphType = iGraphType;
-		var graphData = iDayData.graphData;
+		var graphData = iDayData.teams;
 		var day = iDayData.day;
 		var dayTotal = iDayData.dayTotal;
 		if ( graphType == "singleDay" ) {

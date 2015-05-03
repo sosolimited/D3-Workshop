@@ -1,0 +1,36 @@
+{
+  "teams":[
+    {
+      "team": "seahawks",
+      "count": 115
+    },
+    {
+      "team": "ravens",
+      "count": 9
+    },
+    {
+      "team": "patriots",
+      "count": 94
+    },
+    {
+      "team": "panthers",
+      "count": 4
+    },
+    {
+      "team": "packers",
+      "count": 21
+    },
+    {
+      "team": "cowboys",
+      "count": 12
+    },
+    {
+      "team": "colts",
+      "count": 10
+    },
+    {
+      "team": "broncos",
+      "count": 66
+    }
+  ]
+}
