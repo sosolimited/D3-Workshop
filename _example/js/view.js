@@ -9,41 +9,29 @@ console.log( "view.js- createGraph- iData:" );
 console.log( iData );
 
 		// Setup variables.
-		var graphData = iData.teams;
-		var totalCount = iData.totalCount;
+		var graphData = iData.movieData;
+		var totalCount = iData.numRatingsTotal;
 
 		// Graph dimensions.
 		var margin = {top: 50, right: 50, bottom: 100, left: 50},
 		    width = 1100 - margin.left - margin.right,
 		    height = 300 - margin.top - margin.bottom;
 
-    // Clean the data.
-	  graphData.forEach( function(d) {
-	  	d.count = +d.count;
-	  });
-
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	  // BARCHART
 	  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    // The barchart width is only a part of the total graph width.
     var barchartWidth = width * 6/10;
 
-    // Here we create a scale to map count values to positions along the barchart height.
-		// https://github.com/mbostock/d3/wiki/Quantitative-Scales#linear
-		// http://chimera.labs.oreilly.com/books/1230000000345/ch07.html#_domains_and_ranges
 		var y = d3.scale.linear()
-			.domain( [ 0, d3.max( graphData, function(d){ return d.count; } ) ] )
+			.domain( [ 0, d3.max( graphData, function(d){ return d.tomatoMeter; } ) ] )
 			.range( [ height, 0 ] );
 
 // console.log( "y.domain(): " + y.domain() );
 // console.log( "y.range(): " + y.range() );
 
-  	// Here we create a scale to map teams to positions along the barchart width.
-  	// RangeRoundBands determines the ideal width of the bands (ie. bars) and their positions.
-    // https://github.com/mbostock/d3/wiki/Ordinal-Scales#ordinal_rangeRoundBands
   	var x = d3.scale.ordinal()
-			.domain( graphData.map(function(d) { return d.team; }))
+			.domain( graphData.map(function(d) { return d.Title; }))
 	    .rangeRoundBands( [ 0, barchartWidth ], 0.5 );
 
 // console.log( "x.domain(): " + x.domain() );
@@ -86,11 +74,11 @@ console.log( iData );
   		.selectAll(".bar")
 	      .data(graphData)
 	    .enter().append("rect")
-	      .attr("class", function(d){ return ("bar "+ d.team); })
-	      .attr("x", function(d,i) { return x( d.team ) })
+	      .attr("class", function(d){ return ("bar "+ d.Title); })
+	      .attr("x", function(d,i) { return x( d.Title ) })
 	      .attr("width", x.rangeBand() )
-	      .attr("y", function(d) { return y( d.count ); })
-	      .attr("height", function(d) { return height - y( d.count ); });
+	      .attr("y", function(d) { return y( d.tomatoMeter ); })
+	      .attr("height", function(d) { return height - y( d.tomatoMeter ); });
 
     // Add statistics to top of each bar.
     // DATA-JOIN: ENTER
@@ -100,11 +88,11 @@ console.log( iData );
           .attr("class", "bar-stats")
           .attr("width", x.rangeBand())
           .attr("height", 20)
-          .attr("transform", function(d) { return "translate(" + (x(d.team)) +", "+ (y(d.count) - 20) + ")"; })
+          .attr("transform", function(d) { return "translate(" + (x(d.Title)) +", "+ (y(d.tomatoMeter) - 20) + ")"; })
         .append("xhtml:p")
           .attr("class", "text-content")
           .html(function(d) {
-            return "<p>"+ d.count +"</p>";
+            return "<p>"+ d.tomatoMeter +"</p>";
           });
 
     // Label to indicate the numbers in barchart are # of votes.
@@ -116,6 +104,7 @@ console.log( iData );
     	.style("font-style", "italic")
     	.style("font-weight", "bold");
 
+/*
   	// Add team logos under each bar.
   	// DATA-JOIN: ENTER
   	barchartSvg.selectAll("bar-logos")
@@ -124,14 +113,14 @@ console.log( iData );
   	      .attr("class", "bar-logos")
   	      .attr("width", x.rangeBand())
   	      .attr("height", x.rangeBand())
-  	      .attr("transform", function(d) { return "translate(" + (x(d.team)) +", "+ (height+30) + ")"; })
+  	      .attr("transform", function(d) { return "translate(" + (x(d.Title)) +", "+ (height+30) + ")"; })
   	    .append("xhtml:p")
   	      .attr("class", "content")
   	      .html(function(d) {
   	      	var width = x.rangeBand();
-  	      	if ( d.team == "colts" ) { width = width * 0.6; }
-  	      	if ( d.team == "cowboys" ) { width = width * 0.7; }
-  	        return "<img class='center-block' src='img/"+ d.team +"_logo.png' width='"+ width +"'>";
+  	      	if ( d.Title == "colts" ) { width = width * 0.6; }
+  	      	if ( d.Title == "cowboys" ) { width = width * 0.7; }
+  	        return "<img class='center-block' src='img/"+ d.Title +"_logo.png' width='"+ width +"'>";
   	      });
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -214,6 +203,7 @@ console.log( iData );
 			);
 		});
 		arcs.on("mouseout", function(d) { removePopovers(); });
+*/
 
 	}
 
