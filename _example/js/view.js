@@ -49,6 +49,8 @@ console.log( iData );
 		    .ticks(10)
 		    .tickFormat(d3.format("d"));		// Display as integers.
 
+    var colorScale = d3.scale.category10();
+
 		var svg = d3.select("#graph-container").append("svg")
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom);
@@ -74,11 +76,11 @@ console.log( iData );
   		.selectAll(".bar")
 	      .data(graphData)
 	    .enter().append("rect")
-	      .attr("class", function(d){ return ("bar "+ d.Title); })
 	      .attr("x", function(d,i) { return x( d.Title ) })
 	      .attr("width", x.rangeBand() )
 	      .attr("y", function(d) { return y( d.tomatoMeter ); })
-	      .attr("height", function(d) { return height - y( d.tomatoMeter ); });
+	      .attr("height", function(d) { return height - y( d.tomatoMeter ); })
+        .style("fill", function(d) { return colorScale( d.Title ); });
 
     // Add statistics to top of each bar.
     // DATA-JOIN: ENTER
@@ -95,11 +97,11 @@ console.log( iData );
             return "<p>"+ d.tomatoMeter +"</p>";
           });
 
-    // Label to indicate the numbers in barchart are # of votes.
+    // Label to indicate the numbers in barchart are tomatoMeter.
     // NO DATA-JOIN: just appending.
     barchartSvg.append("text")
     	.attr("transform", "translate(-30, -30)")
-    	.text("# Votes:")
+    	.text("# tomatoMeter:")
     	.style("font-size", "14px")
     	.style("font-style", "italic")
     	.style("font-weight", "bold");
@@ -121,7 +123,7 @@ console.log( iData );
   	      	var src = d.Poster;
   	        return "<img class='center-block' src='"+ src +"' width='"+ width +"'>";
   	      });
-/*
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	  // PIECHART
 	  // Uses a D3 built-in graph type (aka. a D3 "layout").
@@ -133,7 +135,7 @@ console.log( iData );
 	      r = Math.min(pieWidth, pieHeight) / 2,
 	      labelr = r + 20, // radius for label anchor
 	      // Use the pie layout, and tell it how to access the values in our data that we want to use.
-	      pie = d3.layout.pie().value( function(d){ return d.count } ),
+	      pie = d3.layout.pie().value( function(d){ return d.tomatoUserReviews } ),
 	      arc = d3.svg.arc().innerRadius(0).outerRadius(r);
 
     var pieSvg = svg.append("g")
@@ -150,13 +152,8 @@ console.log( iData );
         .attr("class", "arc");
 
     arcs.append("path")
-        .attr("class", function(d){
-			    // d3.layout.pie took our data and automatically generated new properties to draw the arcs.
-// console.log( "d:" );
-// console.log( d );
-        	return d.data.team; })
-        // now, the arc function knows to take those properties and create the SVG path that is appended.
-        .attr("d", arc);
+        .attr("d", arc)
+        .style("fill", function(d) { return colorScale( d.data.Title ); });
 
     // Labels of percent per pie slice.
     arcs.append("text")
@@ -175,7 +172,7 @@ console.log( iData );
                 "end" : "start";
         })
         .text(function(d, i) {
-        	var percentage = Math.round(d.data.count/totalCount*100);
+          var percentage = Math.round(d.data.tomatoUserReviews/totalCount*100);
         	if ( percentage > 0 ) {
         		if ( percentage > 9 ) { percentage = percentage.toString() + "%"; }
         		return percentage;
@@ -185,10 +182,10 @@ console.log( iData );
       	})
       	.style("font-size", "12px");
 
-  	// Label to indicate the numbers in piechart are percentages.
+  	// Label to indicate the numbers in piechart are tomatoUserReviews.
   	pieSvg.append("text")
   		.attr("transform", "translate("+ (-r-40) +", "+ (-r-30) +")")
-  		.text("Percent %:")
+  		.text("tomatoUserReviews %:")
   		.style("font-size", "14px")
   		.style("font-style", "italic")
   		.style("font-weight", "bold");
@@ -197,12 +194,11 @@ console.log( iData );
 		arcs.on("mouseover", function(d) {
 			showPopover.call(this,
 				"<div class='piechart-popover-content'>"+
-					"<p><strong>Team:<br><span class='"+ d.data.team +"'>" + d.data.team + "</span></strong></p>"+
+					"<p><strong>Team:<br><span class='"+ d.data.Title +"'>" + d.data.Title + "</span></strong></p>"+
 				"</div>"
 			);
 		});
 		arcs.on("mouseout", function(d) { removePopovers(); });
-*/
 
 	}
 
