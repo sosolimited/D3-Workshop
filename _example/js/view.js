@@ -23,7 +23,8 @@ var view = (function(){
     var barchartWidth = width * 6/10;
 
 		var y = d3.scale.linear()
-			.domain( [ 0, d3.max( graphData, function(d){ return d.tomatoMeter; } ) ] )
+      // tomatoMeter rating is from 0 to 100.
+			.domain( [ 0, 100 ] )
 			.range( [ height, 0 ] );
 
   	var x = d3.scale.ordinal()
@@ -32,35 +33,36 @@ var view = (function(){
 
     var xAxis = d3.svg.axis()
 	    .scale(x)
-	    .orient("bottom");
+	    .orient("bottom")
+      .tickFormat("");
 
 		var yAxis = d3.svg.axis()
-		    .scale(y)
-		    .orient("left")
-		    .ticks(10)
-		    .tickFormat(d3.format("d"));
+	    .scale(y)
+	    .orient("left")
+	    .ticks(10)
+	    .tickFormat(d3.format("d"));
 
     // Use a pre-built color array for our charts, instead of CSS like the originals.
     var colorScale = d3.scale.category10();
 
 		var svg = d3.select("#graph-container").append("svg")
-		    .attr("width", width + margin.left + margin.right)
-		    .attr("height", height + margin.top + margin.bottom);
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom);
 
 	  var barchartSvg = svg.append("g")
-		    .attr("class", "barchart")
-		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	    .attr("class", "barchart")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	  barchartSvg.append("g")
-	      .attr("class", "x axis")
-	      .attr("transform", "translate(0," + height + ")")
-	      .call(xAxis);
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
 
 	  barchartSvg.append("g")
-	      .attr("class", "y axis")
-	      .call(yAxis);
+      .attr("class", "y axis")
+      .call(yAxis);
 
-	  barchartSvg.append("g")
+	  var bars = barchartSvg.append("g")
       		.attr("class", "bars")
   		.selectAll(".bar")
 	      .data(graphData)
@@ -97,14 +99,24 @@ var view = (function(){
   	      .attr("class", "bar-logos")
   	      .attr("width", x.rangeBand())
   	      .attr("height", x.rangeBand())
-  	      .attr("transform", function(d) { return "translate(" + (x(d.Title)) +", "+ (height+30) + ")"; })
+  	      .attr("transform", function(d) { return "translate(" + (x(d.Title)) +", "+ (height+10) + ")"; })
   	    .append("xhtml:p")
   	      .attr("class", "content")
   	      .html(function(d) {
-  	      	var width = x.rangeBand() * 0.6;
+  	      	var width = x.rangeBand() * 0.7;
   	      	var src = d.Poster;
   	        return "<img class='center-block' src='"+ src +"' width='"+ width +"'>";
   	      });
+
+    bars.on("mouseover", function(d) {
+      console.log(d)
+      showPopover.call(this,
+        "<div class='piechart-popover-content'>"+
+          "<p><strong>Movie:<br><span style='color:"+ colorScale(d.Title) +"'>" + d.Title + "</span></strong></p>"+
+        "</div>"
+      );
+    });
+    bars.on("mouseout", function(d) { removePopovers(); });
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	  // PIECHART

@@ -56,28 +56,28 @@ var view = (function(){
 	    .orient("bottom");
 
 		var yAxis = d3.svg.axis()
-		    .scale(y)
-		    .orient("left")
-		    .ticks(10)
-		    .tickFormat(d3.format("d"));		// Display as integers.
+	    .scale(y)
+	    .orient("left")
+	    .ticks(10)
+	    .tickFormat(d3.format("d"));		// Display as integers.
 
 		var svg = d3.select("#graph-container").append("svg")
-		    .attr("width", width + margin.left + margin.right)
-		    .attr("height", height + margin.top + margin.bottom);
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom);
 
 	  var barchartSvg = svg.append("g")
-		    .attr("class", "barchart")
-		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	    .attr("class", "barchart")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	  // Draw the axes.
 	  barchartSvg.append("g")
-	      .attr("class", "x axis")
-	      .attr("transform", "translate(0," + height + ")")
-	      .call(xAxis);
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
 
 	  barchartSvg.append("g")
-	      .attr("class", "y axis")
-	      .call(yAxis);
+      .attr("class", "y axis")
+      .call(yAxis);
 
 		// Draw the bars.
 		// DATA-JOIN: ENTER
