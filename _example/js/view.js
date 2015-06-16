@@ -104,7 +104,7 @@ console.log( iData );
     	.style("font-style", "italic")
     	.style("font-weight", "bold");
 
-/*
+
   	// Add team logos under each bar.
   	// DATA-JOIN: ENTER
   	barchartSvg.selectAll("bar-logos")
@@ -117,12 +117,11 @@ console.log( iData );
   	    .append("xhtml:p")
   	      .attr("class", "content")
   	      .html(function(d) {
-  	      	var width = x.rangeBand();
-  	      	if ( d.Title == "colts" ) { width = width * 0.6; }
-  	      	if ( d.Title == "cowboys" ) { width = width * 0.7; }
-  	        return "<img class='center-block' src='img/"+ d.Title +"_logo.png' width='"+ width +"'>";
+  	      	var width = x.rangeBand() * 0.6;
+  	      	var src = d.Poster;
+  	        return "<img class='center-block' src='"+ src +"' width='"+ width +"'>";
   	      });
-
+/*
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	  // PIECHART
 	  // Uses a D3 built-in graph type (aka. a D3 "layout").
