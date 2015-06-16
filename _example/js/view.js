@@ -2,17 +2,14 @@ var view = (function(){
 
 	var that = {};
 
-	// Creates a "graph" composed of 2 parts: a barchart and a piechart.
 	var createGraph = function( iData ) {
 
-console.log( "view.js- createGraph- iData:" );
-console.log( iData );
+    console.log( "view.js- createGraph- iData:" );
+    console.log( iData );
 
-		// Setup variables.
 		var graphData = iData.movieData;
 		var totalCount = iData.numRatingsTotal;
 
-		// Graph dimensions.
 		var margin = {top: 50, right: 50, bottom: 100, left: 50},
 		    width = 1100 - margin.left - margin.right,
 		    height = 300 - margin.top - margin.bottom;
@@ -21,23 +18,17 @@ console.log( iData );
 	  // BARCHART
 	  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    // Uses tomatoMeter rating for barchart.
+
     var barchartWidth = width * 6/10;
 
 		var y = d3.scale.linear()
 			.domain( [ 0, d3.max( graphData, function(d){ return d.tomatoMeter; } ) ] )
 			.range( [ height, 0 ] );
 
-// console.log( "y.domain(): " + y.domain() );
-// console.log( "y.range(): " + y.range() );
-
   	var x = d3.scale.ordinal()
 			.domain( graphData.map(function(d) { return d.Title; }))
 	    .rangeRoundBands( [ 0, barchartWidth ], 0.5 );
-
-// console.log( "x.domain(): " + x.domain() );
-// console.log( "x.range(): " + x.range() );
-// console.log( "x.rangeBand(): " + x.rangeBand() );
-// console.log( "x.rangeExtent(): " + x.rangeExtent() );
 
     var xAxis = d3.svg.axis()
 	    .scale(x)
@@ -47,8 +38,9 @@ console.log( iData );
 		    .scale(y)
 		    .orient("left")
 		    .ticks(10)
-		    .tickFormat(d3.format("d"));		// Display as integers.
+		    .tickFormat(d3.format("d"));
 
+    // Use a pre-built color array for our charts, instead of CSS like the originals.
     var colorScale = d3.scale.category10();
 
 		var svg = d3.select("#graph-container").append("svg")
@@ -59,7 +51,6 @@ console.log( iData );
 		    .attr("class", "barchart")
 		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	  // Draw the axes.
 	  barchartSvg.append("g")
 	      .attr("class", "x axis")
 	      .attr("transform", "translate(0," + height + ")")
@@ -69,8 +60,6 @@ console.log( iData );
 	      .attr("class", "y axis")
 	      .call(yAxis);
 
-		// Draw the bars.
-		// DATA-JOIN: ENTER
 	  barchartSvg.append("g")
       		.attr("class", "bars")
   		.selectAll(".bar")
@@ -82,8 +71,6 @@ console.log( iData );
 	      .attr("height", function(d) { return height - y( d.tomatoMeter ); })
         .style("fill", function(d) { return colorScale( d.Title ); });
 
-    // Add statistics to top of each bar.
-    // DATA-JOIN: ENTER
     barchartSvg.selectAll("bar-stats")
         .data(graphData)
       .enter().append("foreignObject")
@@ -97,8 +84,6 @@ console.log( iData );
             return "<p>"+ d.tomatoMeter +"</p>";
           });
 
-    // Label to indicate the numbers in barchart are tomatoMeter.
-    // NO DATA-JOIN: just appending.
     barchartSvg.append("text")
     	.attr("transform", "translate(-30, -30)")
     	.text("# tomatoMeter:")
@@ -106,9 +91,6 @@ console.log( iData );
     	.style("font-style", "italic")
     	.style("font-weight", "bold");
 
-
-  	// Add team logos under each bar.
-  	// DATA-JOIN: ENTER
   	barchartSvg.selectAll("bar-logos")
   	    .data(graphData)
   	  .enter().append("foreignObject")
@@ -126,15 +108,14 @@ console.log( iData );
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	  // PIECHART
-	  // Uses a D3 built-in graph type (aka. a D3 "layout").
 	  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	  // https://github.com/mbostock/d3/wiki/Pie-Layout
+    // Uses # of tomatoUserReviews for piechart.
+
 	  var pieWidth = width * 2/10,
 	      pieHeight = pieWidth,
 	      r = Math.min(pieWidth, pieHeight) / 2,
-	      labelr = r + 20, // radius for label anchor
-	      // Use the pie layout, and tell it how to access the values in our data that we want to use.
+	      labelr = r + 20,
 	      pie = d3.layout.pie().value( function(d){ return d.tomatoUserReviews } ),
 	      arc = d3.svg.arc().innerRadius(0).outerRadius(r);
 
@@ -142,11 +123,7 @@ console.log( iData );
   	    .attr("class", "piechart")
   	    .attr("transform", "translate(" + (margin.left + barchartWidth + (width * 1/10) + r) + "," + (margin.top + r) + ")");
 
-
-    // Create pie arcs based on our data.
-    // DATA-JOIN: ENTER
     var arcs = pieSvg.selectAll(".arc")
-    		// Give the pie layout our data, which it already knows how to use, thanks to d3.layout.pie().value().
         .data( pie(graphData) )
       .enter().append("g")
         .attr("class", "arc");
@@ -155,19 +132,16 @@ console.log( iData );
         .attr("d", arc)
         .style("fill", function(d) { return colorScale( d.data.Title ); });
 
-    // Labels of percent per pie slice.
     arcs.append("text")
         .attr("transform", function(d) {
             var c = arc.centroid(d),
                 x = c[0],
                 y = c[1],
-                // pythagorean theorem for hypotenuse
                 h = Math.sqrt(x*x + y*y);
             return "translate(" + (x/h * labelr) +  ',' +
                (y/h * labelr) +  ")";
         })
         .attr("text-anchor", function(d) {
-            // are we past the center?
             return (d.endAngle + d.startAngle)/2 > Math.PI ?
                 "end" : "start";
         })
@@ -182,7 +156,6 @@ console.log( iData );
       	})
       	.style("font-size", "12px");
 
-  	// Label to indicate the numbers in piechart are tomatoUserReviews.
   	pieSvg.append("text")
   		.attr("transform", "translate("+ (-r-40) +", "+ (-r-30) +")")
   		.text("tomatoUserReviews %:")
@@ -190,11 +163,10 @@ console.log( iData );
   		.style("font-style", "italic")
   		.style("font-weight", "bold");
 
-  	// Call Bootstrap's popover method with D3's mouseover method.
 		arcs.on("mouseover", function(d) {
 			showPopover.call(this,
 				"<div class='piechart-popover-content'>"+
-					"<p><strong>Team:<br><span class='"+ d.data.Title +"'>" + d.data.Title + "</span></strong></p>"+
+					"<p><strong>Movie:<br><span style='color:"+ colorScale(d.data.Title) +"'>" + d.data.Title + "</span></strong></p>"+
 				"</div>"
 			);
 		});
