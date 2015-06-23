@@ -34,9 +34,9 @@ For teams that are in different offices, use Screenhero.
 	- Make your barchart
 	- Make your piechart
 
-##4 _Presentación_ (show & tell)
+## 4) _Presentación_ (show & tell)
 
-##5 _Notas_ (notes)
+## 5) _Notas_ (notes)
 
 - System architecture
 	- a basic __MVC architecture__ (Model, View, Controller) just for clarity & simplicity
