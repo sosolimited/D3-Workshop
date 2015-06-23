@@ -5,7 +5,8 @@ var dataUrls =  [ "http://www.omdbapi.com/?t=Akira&y=&plot=short&r=json&tomatoes
 									"http://www.omdbapi.com/?t=Ghost In The Shell&y=&plot=short&r=json&tomatoes=true",
 									"http://www.omdbapi.com/?t=Power Rangers&y=&plot=short&r=json&tomatoes=true",
 									"http://www.omdbapi.com/?t=Caligula&y=&plot=short&r=json&tomatoes=true",
-									"http://www.omdbapi.com/?t=Hot Tub Time Machine&y=&plot=short&r=json&tomatoes=true" ];
+									"http://www.omdbapi.com/?t=Hot Tub Time Machine&y=&plot=short&r=json&tomatoes=true",
+									"http://www.omdbapi.com/?s=Spielberg&r=json" ];
 
 dataUrls.forEach( function( d ) { q.defer( d3.json, d ); });
 
