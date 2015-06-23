@@ -39,7 +39,7 @@ For teams that are in different offices, use Screenhero.
 ## 5) _Notas_ (notes)
 
 - System architecture
-	- a basic __MVC architecture__ (Model, View, Controller) just for clarity & simplicity
+	- a basic [__MVC architecture__](http://www.coderiddles.com/wp-content/uploads/2013/08/MVC.jpg) (Model, View, Controller) just for clarity & simplicity
 		- __data.js__: a class for getting the data (aka. _API polling engine_) and transforming that data for our Views
 		- __view.js__: a class for receiving prepared data, and creating visual things with it (aka. _D3 graphing engine_)
 		- __controller.js__: a class that sets up the buttons, etc. on the page to complete certain actions/call functions
