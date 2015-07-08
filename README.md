@@ -46,5 +46,5 @@ For teams that are in different offices, use Screenhero.
 - More about APIs
 	- an API is a piece of software that can talk to another piece of software, by taking a request in a certain format, and by responding with data in a certain format
 	- a movie review API (like Rotten Tomatoes) takes a request where the parameters are the Title of the movie, or something else; it then responds by returning JSON data about that movie
-	- API's can talk in almost any format and deal with any data that it stored somewhere. [So you can literally find an API about anything.](https://www.mashape.com/explore?page=1)
+	- API's can talk in almost any format and deal with any data that it stored somewhere. [So you can literally find an API about anything.](https://www.mashape.com/ismaelc/yoda-speak)
 	- for this workshop, I simply Googled [`movie API json`](https://www.google.com/search?q=movie+API+json&oq=movie+api+json&aqs=chrome.0.69i59j69i60l2.1787j0j7&sourceid=chrome&es_sm=91&ie=UTF-8). See, it's the 1st result!
