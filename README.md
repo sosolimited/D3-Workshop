@@ -12,11 +12,10 @@ We'll start with a small sample piece of the WGW2015 dashboard we built, and you
 
 For teams that are in different offices, use Screenhero.
 
-1. Alex, Justin
-2. Jackie, David
-3. John, Colin
-4. Wes, Wade
-5. Eric, JC
+1. Sam, Jackie, David
+2. Alex, John, Colin
+3. Wes, Wade, Justin
+4. Laura, Eric, JC
 
 ## 2) _El Punto de Partida_ (starting point)
 
