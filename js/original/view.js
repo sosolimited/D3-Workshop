@@ -86,8 +86,13 @@ var view = (function(){
   		.selectAll(".bar")
 	      .data(graphData)
 	    .enter().append("rect")
-	      .attr("class", function(d){ return ("bar "+ d.team); })
-	      .attr("x", function(d,i) { return x( d.team ) })
+	      .attr("class", function(d,i){
+// console.log( "--------" );
+// console.log( "i: "+ i );
+// console.log( "d: " );
+// console.log( d );
+          return ("bar "+ d.team); })
+	      .attr("x", function(d) { return x( d.team ) })
 	      .attr("width", x.rangeBand() )
 	      .attr("y", function(d) { return y( d.count ); })
 	      .attr("height", function(d) { return height - y( d.count ); });
