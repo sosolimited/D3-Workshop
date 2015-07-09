@@ -5,8 +5,8 @@ var view = (function(){
 	// Creates a "graph" composed of 2 parts: a barchart and a piechart.
 	var createGraph = function( iData ) {
 
-    console.log( "view.js- createGraph- iData:" );
-    console.log( iData );
+    // console.log( "view.js- createGraph- iData:" );
+    // console.log( iData );
 
 		// Setup variables.
 		var graphData = iData.teams;
