@@ -367,3 +367,7 @@ button#button-map-geo-reset {
   font-size: 2.0rem;
   font-weight: bold;
 }
+
+.tomato {
+  fill: #AF9B1D;
+}

@@ -5,8 +5,8 @@ var dataUrls =  [ "http://www.omdbapi.com/?t=Akira&y=&plot=short&r=json&tomatoes
 									"http://www.omdbapi.com/?t=Ghost In The Shell&y=&plot=short&r=json&tomatoes=true",
 									"http://www.omdbapi.com/?t=Power Rangers&y=&plot=short&r=json&tomatoes=true",
 									"http://www.omdbapi.com/?t=Caligula&y=&plot=short&r=json&tomatoes=true",
-									"http://www.omdbapi.com/?t=Hot Tub Time Machine&y=&plot=short&r=json&tomatoes=true",
-									"http://www.omdbapi.com/?s=Spielberg&r=json" ];
+									"http://www.omdbapi.com/?t=Hot Tub Time Machine&y=&plot=short&r=json&tomatoes=true"];
+									// "http://www.omdbapi.com/?s=Spielberg&r=json" ];
 
 dataUrls.forEach( function( d ) { q.defer( d3.json, d ); });
 
@@ -18,8 +18,23 @@ q.awaitAll( function( error, results ){
 
 	} else {
 
-		console.log( "results:" );
-		console.log( results );
+		// console.log( "results:" );
+		// console.log( results );
+
+		var ourData = _.map(results, function(d,i) {
+			var movie = {
+			 'rotten': d.tomatoRotten,
+			 'title': d.Title,
+			 'image': d.Poster,
+			 'year': d.Year
+			 };
+
+			return movie;
+		});
+
+		console.log( "Our Data:" );
+		console.log(ourData);
+		view.createGraph( ourData );
 
 	}
 
