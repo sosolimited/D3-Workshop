@@ -6,7 +6,7 @@ We'll start with a small sample piece of the WGW2015 dashboard we built, and you
 
 ## 0) _Preámbulo_ (preamble)
 
-- [D3-Handbook, only up to _The Basics_](https://github.com/sosolimited/D3-Handbook/blob/master/tour-of-d3.md)
+- [D3-Handbook, only up to _The Basics_](https://github.com/sosolimited/Web-Handbook/blob/gh-pages/D3-Handbook/tour-of-d3.md)
 
 ## 1) _Sus Equipos_ (teams)
 
